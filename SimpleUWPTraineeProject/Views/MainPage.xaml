@@ -5,10 +5,45 @@
     xmlns:local="using:SimpleUWPTraineeProject"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:SimpleUWPTraineeProject.ViewModels"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Page.DataContext>
+        <viewModels:MainViewModel/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Styles/LigthTheme.xaml" />
+                <ResourceDictionary Source="../Assets/Styles/Text.xaml" />
+                <ResourceDictionary Source="../Assets/Styles/Form.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
-        <TextBlock Text="Hello world!" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Background="{StaticResource PrimaryBackground}">
+            <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
+                <TextBox Text="{Binding FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
+                <TextBox Text="{Binding SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
+                <Button Command="{Binding AddUserCommand}" Content="Додати" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
+            <controls:DataGrid ItemsSource="{Binding Users}">
+                
+            </controls:DataGrid>
+        </Grid>
     </Grid>
 </Page>
