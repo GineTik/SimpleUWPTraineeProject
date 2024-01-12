@@ -8,10 +8,11 @@
     xmlns:viewModels="using:SimpleUWPTraineeProject.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:convertors="using:SimpleUWPTraineeProject.Convertors">
 
     <Page.DataContext>
-        <viewModels:MainViewModel/>
+        <viewModels:MainViewModel x:Name="ViewModel"/>
     </Page.DataContext>
 
     <Page.Resources>
@@ -21,6 +22,7 @@
                 <ResourceDictionary Source="../Assets/Styles/Text.xaml" />
                 <ResourceDictionary Source="../Assets/Styles/Form.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <convertors:NullCollapsedConverter x:Key="NullCollapsedConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -41,9 +43,25 @@
         </Grid>
 
         <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
-            <controls:DataGrid ItemsSource="{Binding Users}">
-                
+            <controls:DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" x:Name="Users" 
+                               SelectedItem="{Binding SelectedUser, Mode=TwoWay}">
+                <controls:DataGrid.Columns>
+                    <controls:DataGridTextColumn 
+                        Header="Ім'я" 
+                        Width="200"
+                        Binding="{Binding FirstName}" 
+                        FontSize="16" />
+                    <controls:DataGridTextColumn 
+                        Header="Фамілія" 
+                        Width="200"
+                        Binding="{Binding SecondName}" 
+                        FontSize="16" />
+                </controls:DataGrid.Columns>
             </controls:DataGrid>
+
+            <Button Command="{Binding RemoveUserCommand}" Content="Видалити"
+                    HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 0 0 20"
+                    Visibility="{Binding SelectedUser, Converter={StaticResource NullCollapsedConverter}}"/>
         </Grid>
     </Grid>
 </Page>
