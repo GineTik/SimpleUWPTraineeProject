@@ -36,15 +36,14 @@
             <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
-                <TextBox Text="{Binding FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
-                <TextBox Text="{Binding SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
+                <TextBox Text="{Binding NewUser.FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
+                <TextBox Text="{Binding NewUser.SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
                 <Button Command="{Binding AddUserCommand}" Content="Додати" />
             </StackPanel>
         </Grid>
 
         <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
-            <controls:DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" x:Name="Users" 
-                               SelectedItem="{Binding SelectedUser, Mode=TwoWay}">
+            <controls:DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" x:Name="Users">
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn 
                         Header="Ім'я" 
@@ -59,9 +58,10 @@
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
 
-            <Button Command="{Binding RemoveUserCommand}" Content="Видалити"
+            <Button Command="{Binding RemoveUserCommand}"
+                    CommandParameter="{Binding SelectedItem, ElementName=Users}" Content="Видалити"
                     HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 0 0 20"
-                    Visibility="{Binding SelectedUser, Converter={StaticResource NullCollapsedConverter}}"/>
+                    Visibility="{Binding SelectedItem, ElementName=Users, Converter={StaticResource NullCollapsedConverter}}"/>
         </Grid>
     </Grid>
 </Page>

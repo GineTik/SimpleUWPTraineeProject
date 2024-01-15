@@ -10,27 +10,7 @@ namespace SimpleUWPTraineeProject.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private string _firstName;
-        private string _secondName;
-        private User _selectedUser;
-
-        public string FirstName
-        {
-            get => _firstName;
-            set => SetField(ref _firstName, value);
-        }
-
-        public string SecondName
-        {
-            get => _secondName;
-            set => SetField(ref _secondName, value);
-        }
-
-        public User SelectedUser
-        {
-            get => _selectedUser;
-            set => SetField(ref _selectedUser, value);
-        }
+        public User NewUser { get; set; }
 
         public ObservableCollection<User> Users { get; set; }
 
@@ -39,8 +19,7 @@ namespace SimpleUWPTraineeProject.ViewModels
 
         public MainViewModel()
         {
-            FirstName = "";
-            SecondName = "";
+            NewUser = new User();
             Users = new ObservableCollection<User>();
             AddUserCommand = new RelayCommand(AddUser);
             RemoveUserCommand = new RelayCommand(RemoveUser);
@@ -48,22 +27,18 @@ namespace SimpleUWPTraineeProject.ViewModels
 
         public void AddUser(object _)
         {
-            Users.Add(new User
-            {
-                FirstName = FirstName,
-                SecondName = SecondName
-            });
+            Users.Add(NewUser.Clone());
         }
 
-        public async void RemoveUser(object _)
+        public async void RemoveUser(object user)
         {
-            if (SelectedUser == null)
+            if (user == null)
                 return;
 
             var deleteFileDialog = new ContentDialog
             {
                 Title = "Підтвердіть видалення",
-                Content = $"Ви впевнені, що хочете видалити користувача \"{SelectedUser}\"?",
+                Content = $"Ви впевнені, що хочете видалити користувача \"{user}\"?",
                 PrimaryButtonText = "Видалити",
                 CloseButtonText = "Відмінити"
             };
@@ -72,7 +47,7 @@ namespace SimpleUWPTraineeProject.ViewModels
             if (result != ContentDialogResult.Primary)
                 return;
 
-            Users.Remove(SelectedUser);
+            Users.Remove((User)user);
         }
     }
 }
