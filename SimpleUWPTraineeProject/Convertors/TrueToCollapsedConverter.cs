@@ -4,11 +4,11 @@ using Windows.UI.Xaml.Data;
 
 namespace SimpleUWPTraineeProject.Convertors
 {
-    public class NullCollapsedConverter : IValueConverter
+    public class TrueToCollapsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
+            return (bool)value ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

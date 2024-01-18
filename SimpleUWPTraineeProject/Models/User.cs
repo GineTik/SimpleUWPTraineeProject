@@ -1,5 +1,4 @@
-﻿using Windows.Media.Effects;
-using SimpleUWPTraineeProject.ViewModels.Base;
+﻿using SimpleUWPTraineeProject.ViewModels.Base;
 
 namespace SimpleUWPTraineeProject.Models
 {
@@ -7,6 +6,7 @@ namespace SimpleUWPTraineeProject.Models
     {
         private string _firstName;
         private string _secondName;
+        private User _preEditState;
 
         public string FirstName
         {
@@ -19,6 +19,8 @@ namespace SimpleUWPTraineeProject.Models
             get => _secondName;
             set => SetField(ref _secondName, value);
         }
+
+        public bool IsEditing => _preEditState != null;
 
         public User Clone()
         {
@@ -35,10 +37,28 @@ namespace SimpleUWPTraineeProject.Models
             SecondName = "";
         }
 
-        public void EditBy(User user)
+        public void StartEdit()
         {
-            FirstName = user.FirstName;
-            SecondName = user.SecondName;
+            _preEditState = Clone();
+            OnPropertyChanged(nameof(IsEditing));
+        }
+
+        public void ConfirmEdit()
+        {
+            _preEditState = null;
+            OnPropertyChanged(nameof(IsEditing));
+        }
+
+        public void CancelEditing()
+        {
+            if (_preEditState != null)
+            {
+                FirstName = _preEditState.FirstName;
+                SecondName = _preEditState.SecondName;
+
+                _preEditState = null;
+                OnPropertyChanged(nameof(IsEditing));
+            }
         }
 
         public override string ToString()

@@ -8,22 +8,21 @@ namespace SimpleUWPTraineeProject.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private User _editingUser;
-        private User _editingUserCopy;
 
         public User NewUser { get; set; }
-        public User EditingUserCopy
+        public User EditingUser
         {
-            get => _editingUserCopy;
-            set => SetField(ref _editingUserCopy, value);
+            get => _editingUser;
+            set => SetField(ref _editingUser, value);
         }
 
         public ObservableCollection<User> Users { get; set; }
 
         public RelayCommand AddUserCommand { get; set; }
         public RelayCommand RemoveUserCommand { get; set; }
-        public RelayCommand OpenEditingUserWindowCommand { get; set; }
-        public RelayCommand EditUserCommand { get; set; }
-        public RelayCommand CancelEditUserCommand { get; set; }
+        public RelayCommand StartEditingUserCommand { get; set; }
+        public RelayCommand ConfirmEditUserCommand { get; set; }
+        public RelayCommand CancelEditingUserCommand { get; set; }
 
         public MainViewModel()
         {
@@ -31,9 +30,9 @@ namespace SimpleUWPTraineeProject.ViewModels
             Users = new ObservableCollection<User>();
             AddUserCommand = new RelayCommand(AddUser);
             RemoveUserCommand = new RelayCommand(RemoveUser);
-            OpenEditingUserWindowCommand = new RelayCommand(OpenEditingUserWindow);
-            EditUserCommand = new RelayCommand(EditUser);
-            CancelEditUserCommand = new RelayCommand(CancelEditUser);
+            StartEditingUserCommand = new RelayCommand(StartEditingUser);
+            ConfirmEditUserCommand = new RelayCommand(ConfirmEditUser);
+            CancelEditingUserCommand = new RelayCommand(CancelEditingUser);
         }
 
         public void AddUser(object _)
@@ -59,30 +58,25 @@ namespace SimpleUWPTraineeProject.ViewModels
             }
         }
 
-        public void OpenEditingUserWindow(object user)
+        public void StartEditingUser(object user)
         {
             if (user != null)
             {
-                _editingUser = (User)user;
-                EditingUserCopy = _editingUser.Clone();
+                EditingUser?.CancelEditing();
+
+                EditingUser = (User)user;
+                EditingUser.StartEdit();
             }
         }
 
-        public void EditUser(object _)
+        public void ConfirmEditUser(object _)
         {
-            _editingUser.EditBy(EditingUserCopy);
-            CloseEditingUserWindow();
+            EditingUser.ConfirmEdit();
         }
 
-        public void CancelEditUser(object _)
+        public void CancelEditingUser(object _)
         {
-            CloseEditingUserWindow();
-        }
-
-        private void CloseEditingUserWindow()
-        {
-            _editingUser = null;
-            EditingUserCopy = null;
+            EditingUser.CancelEditing();
         }
     }
 }

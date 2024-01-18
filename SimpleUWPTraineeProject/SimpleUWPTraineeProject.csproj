@@ -128,7 +128,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfirmDialog.cs" />
-    <Compile Include="Convertors\NullCollapsedConverter.cs" />
+    <Compile Include="Convertors\TrueToCollapsedConverter.cs" />
+    <Compile Include="Convertors\TrueToVisibleConverter.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
