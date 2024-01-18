@@ -2,18 +2,28 @@
 using SimpleUWPTraineeProject.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls;
 
 namespace SimpleUWPTraineeProject.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private User _editingUser;
+        private User _editingUserCopy;
+
         public User NewUser { get; set; }
+        public User EditingUserCopy
+        {
+            get => _editingUserCopy;
+            set => SetField(ref _editingUserCopy, value);
+        }
 
         public ObservableCollection<User> Users { get; set; }
 
         public RelayCommand AddUserCommand { get; set; }
         public RelayCommand RemoveUserCommand { get; set; }
+        public RelayCommand OpenEditUserWindowCommand { get; set; }
+        public RelayCommand EditUserCommand { get; set; }
+        public RelayCommand CancelEditUserCommand { get; set; }
 
         public MainViewModel()
         {
@@ -21,13 +31,15 @@ namespace SimpleUWPTraineeProject.ViewModels
             Users = new ObservableCollection<User>();
             AddUserCommand = new RelayCommand(AddUser);
             RemoveUserCommand = new RelayCommand(RemoveUser);
+            OpenEditUserWindowCommand = new RelayCommand(OpenEditUserWindow);
+            EditUserCommand = new RelayCommand(EditUser);
+            CancelEditUserCommand = new RelayCommand(CancelEditUser);
         }
 
         public void AddUser(object _)
         {
             Users.Add(NewUser.Clone());
             NewUser.ClearProperties();
-            OnPropertyChanged(nameof(NewUser));
         }
 
         public async void RemoveUser(object user)
@@ -41,6 +53,32 @@ namespace SimpleUWPTraineeProject.ViewModels
             {
                 Users.Remove((User)user);
             }
+        }
+
+        public void OpenEditUserWindow(object user)
+        {
+            if (user != null)
+            {
+                _editingUser = (User)user;
+                EditingUserCopy = _editingUser.Clone();
+            }
+        }
+
+        public void EditUser(object _)
+        {
+            _editingUser.EditBy(EditingUserCopy);
+            CloseEditUserWindow();
+        }
+
+        public void CancelEditUser(object _)
+        {
+            CloseEditUserWindow();
+        }
+
+        private void CloseEditUserWindow()
+        {
+            _editingUser = null;
+            EditingUserCopy = null;
         }
     }
 }

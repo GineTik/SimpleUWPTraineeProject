@@ -64,18 +64,38 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0" Text="{Binding FirstName}" VerticalAlignment="Center" />
                             <TextBlock Grid.Column="1" Text="{Binding SecondName}" VerticalAlignment="Center" />
-                            <Button Grid.Column="2" Content="Видалити"
-                                    Command="{Binding DataContext.RemoveUserCommand, ElementName=Users}"
-                                    CommandParameter="{Binding}"/>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                <Button Content="Видалити"
+                                        Command="{Binding DataContext.RemoveUserCommand, ElementName=Users}"
+                                        CommandParameter="{Binding}"
+                                        Margin="0 0 10 0"/>
+                                <Button Content="Редагувати"
+                                        Command="{Binding DataContext.OpenEditUserWindowCommand, ElementName=Users}"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+        </Grid>
+
+        <Grid Grid.Column="1" Background="#66000000"
+              Visibility="{Binding EditingUserCopy, Converter={StaticResource NullCollapsedConverter}}">
+            <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
+                <TextBox Text="{Binding EditingUserCopy.FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
+                <TextBox Text="{Binding EditingUserCopy.SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding EditUserCommand}" Content="Редагувати" Margin="0 0 10 0" />
+                    <Button Command="{Binding CancelEditUserCommand}" Content="Відмінити" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
