@@ -28,66 +28,69 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="2*" />
-        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="{StaticResource PrimaryBackground}">
-            <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
+            <Grid Grid.Column="0" Background="{StaticResource PrimaryBackground}">
+                <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
-                <TextBox Text="{Binding NewUser.FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
-                <TextBox Text="{Binding NewUser.SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
-                <Button Command="{Binding AddUserCommand}" Content="Додати" />
-            </StackPanel>
-        </Grid>
+                    <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
+                    <TextBox Text="{Binding NewUser.FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
+                    <TextBox Text="{Binding NewUser.SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
+                    <Button Command="{Binding AddUserCommand}" Content="Додати" />
+                </StackPanel>
+            </Grid>
 
-        <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
-            <ListView ItemsSource="{Binding Users}" x:Name="Users">
-                <ListView.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid Background="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
-                            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
+                <ListView ItemsSource="{Binding Users}" x:Name="Users">
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Background="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="Ім'я" Margin="13" FontWeight="Bold" />
-                            <TextBlock Grid.Column="1" Text="Фамілія" Margin="13" FontWeight="Bold" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.HeaderTemplate>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Ім'я" Margin="13" FontWeight="Bold" />
+                                <TextBlock Grid.Column="1" Text="Фамілія" Margin="13" FontWeight="Bold" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="{Binding FirstName}" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding SecondName}" VerticalAlignment="Center" />
-                            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                <Button Content="Видалити"
+                                <TextBlock Grid.Column="0" Text="{Binding FirstName}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding SecondName}" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Button Content="Видалити"
                                         Command="{Binding DataContext.RemoveUserCommand, ElementName=Users}"
                                         CommandParameter="{Binding}"
                                         Margin="0 0 10 0"/>
-                                <Button Content="Редагувати"
+                                    <Button Content="Редагувати"
                                         Command="{Binding DataContext.OpenEditUserWindowCommand, ElementName=Users}"
                                         CommandParameter="{Binding}"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
         </Grid>
 
-        <Grid Grid.Column="1" Background="#66000000"
+        <Grid Background="#AEFFFFFF"
               Visibility="{Binding EditingUserCopy, Converter={StaticResource NullCollapsedConverter}}">
             <StackPanel Width="300" Padding="20" Background="{StaticResource SecondaryBackground}"
-                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        BorderBrush="#99000000" BorderThickness="1">
                 <TextBlock Text="Додати користувача" Style="{StaticResource H1}" />
                 <TextBox Text="{Binding EditingUserCopy.FirstName, Mode=TwoWay}" PlaceholderText="Ім'я" Style="{StaticResource Input}" />
                 <TextBox Text="{Binding EditingUserCopy.SecondName, Mode=TwoWay}" PlaceholderText="Фамілія" Style="{StaticResource Input}" />
