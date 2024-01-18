@@ -21,7 +21,7 @@ namespace SimpleUWPTraineeProject.ViewModels
 
         public RelayCommand AddUserCommand { get; set; }
         public RelayCommand RemoveUserCommand { get; set; }
-        public RelayCommand OpenEditUserWindowCommand { get; set; }
+        public RelayCommand OpenEditingUserWindowCommand { get; set; }
         public RelayCommand EditUserCommand { get; set; }
         public RelayCommand CancelEditUserCommand { get; set; }
 
@@ -31,7 +31,7 @@ namespace SimpleUWPTraineeProject.ViewModels
             Users = new ObservableCollection<User>();
             AddUserCommand = new RelayCommand(AddUser);
             RemoveUserCommand = new RelayCommand(RemoveUser);
-            OpenEditUserWindowCommand = new RelayCommand(OpenEditUserWindow);
+            OpenEditingUserWindowCommand = new RelayCommand(OpenEditingUserWindow);
             EditUserCommand = new RelayCommand(EditUser);
             CancelEditUserCommand = new RelayCommand(CancelEditUser);
         }
@@ -55,7 +55,7 @@ namespace SimpleUWPTraineeProject.ViewModels
             }
         }
 
-        public void OpenEditUserWindow(object user)
+        public void OpenEditingUserWindow(object user)
         {
             if (user != null)
             {
@@ -67,15 +67,15 @@ namespace SimpleUWPTraineeProject.ViewModels
         public void EditUser(object _)
         {
             _editingUser.EditBy(EditingUserCopy);
-            CloseEditUserWindow();
+            CloseEditingUserWindow();
         }
 
         public void CancelEditUser(object _)
         {
-            CloseEditUserWindow();
+            CloseEditingUserWindow();
         }
 
-        private void CloseEditUserWindow()
+        private void CloseEditingUserWindow()
         {
             _editingUser = null;
             EditingUserCopy = null;
