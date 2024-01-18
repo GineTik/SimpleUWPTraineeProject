@@ -26,26 +26,21 @@ namespace SimpleUWPTraineeProject.ViewModels
         public void AddUser(object _)
         {
             Users.Add(NewUser.Clone());
+            NewUser.ClearProperties();
+            OnPropertyChanged(nameof(NewUser));
         }
 
         public async void RemoveUser(object user)
         {
-            if (user == null)
-                return;
+            var approvedOfRemovingUser = await ConfirmDialog.AskAsync(
+                "Підтвердіть видалення", 
+                $"Ви впевнені, що хочете видалити користувача \"{user}\"?", 
+                "Видалити");
 
-            var deleteFileDialog = new ContentDialog
+            if (user != null && approvedOfRemovingUser)
             {
-                Title = "Підтвердіть видалення",
-                Content = $"Ви впевнені, що хочете видалити користувача \"{user}\"?",
-                PrimaryButtonText = "Видалити",
-                CloseButtonText = "Відмінити"
-            };
-
-            var result = await deleteFileDialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
-                return;
-
-            Users.Remove((User)user);
+                Users.Remove((User)user);
+            }
         }
     }
 }

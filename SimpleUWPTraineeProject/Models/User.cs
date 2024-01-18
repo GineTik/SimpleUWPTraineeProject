@@ -16,6 +16,12 @@ namespace SimpleUWPTraineeProject.Models
             };
         }
 
+        public void ClearProperties()
+        {
+            FirstName = "";
+            SecondName = "";
+        }
+
         public override string ToString()
         {
             return FirstName + " " + SecondName;
