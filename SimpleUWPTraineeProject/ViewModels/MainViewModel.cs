@@ -38,8 +38,12 @@ namespace SimpleUWPTraineeProject.ViewModels
 
         public void AddUser(object _)
         {
-            Users.Add(NewUser.Clone());
-            NewUser.ClearProperties();
+            if (string.IsNullOrWhiteSpace(NewUser.FirstName) == false
+                && string.IsNullOrWhiteSpace(NewUser.SecondName) == false)
+            {
+                Users.Add(NewUser.Clone());
+                NewUser.ClearProperties();
+            }
         }
 
         public async void RemoveUser(object user)
