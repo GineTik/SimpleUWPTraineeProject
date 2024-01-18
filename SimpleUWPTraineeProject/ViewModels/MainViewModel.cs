@@ -1,9 +1,7 @@
-﻿using System;
-using SimpleUWPTraineeProject.Models;
+﻿using SimpleUWPTraineeProject.Models;
 using SimpleUWPTraineeProject.ViewModels.Base;
+using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 
 namespace SimpleUWPTraineeProject.ViewModels

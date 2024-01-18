@@ -9,7 +9,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:convertors="using:SimpleUWPTraineeProject.Convertors">
+    xmlns:convertors="using:SimpleUWPTraineeProject.Convertors"
+    xmlns:models="using:SimpleUWPTraineeProject.Models">
 
     <Page.DataContext>
         <viewModels:MainViewModel x:Name="ViewModel"/>
@@ -43,25 +44,38 @@
         </Grid>
 
         <Grid Grid.Column="1" Background="{StaticResource SecondaryBackground}">
-            <controls:DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" x:Name="Users">
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTextColumn 
-                        Header="Ім'я" 
-                        Width="200"
-                        Binding="{Binding FirstName}" 
-                        FontSize="16" />
-                    <controls:DataGridTextColumn 
-                        Header="Фамілія" 
-                        Width="200"
-                        Binding="{Binding SecondName}" 
-                        FontSize="16" />
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
+            <ListView ItemsSource="{Binding Users}" x:Name="Users">
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
 
-            <Button Command="{Binding RemoveUserCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=Users}" Content="Видалити"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20 0 0 20"
-                    Visibility="{Binding SelectedItem, ElementName=Users, Converter={StaticResource NullCollapsedConverter}}"/>
+                            <TextBlock Grid.Column="0" Text="Ім'я" Margin="13" FontWeight="Bold" />
+                            <TextBlock Grid.Column="1" Text="Фамілія" Margin="13" FontWeight="Bold" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding FirstName}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding SecondName}" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" Content="Видалити"
+                                    Command="{Binding DataContext.RemoveUserCommand, ElementName=Users}"
+                                    CommandParameter="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Page>
